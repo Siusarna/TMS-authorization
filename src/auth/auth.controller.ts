@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Tokens } from './interfaces/tokens.interface';
-import { AuthInfoDto } from './dtos/auth-info.dto';
+import { SignUpDto } from './dtos/sign-up.dto';
 
 @Controller('auth')
 export class AuthController {
   @Post()
-  signUp(@Body() authInfo: AuthInfoDto): Tokens {
+  signUp(@Body() authInfo: SignUpDto): Tokens {
     return {
       accessToken: 'b',
       refreshToken: 'd',
