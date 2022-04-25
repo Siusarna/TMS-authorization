@@ -1,5 +1,6 @@
 import { IsEmail, IsString, Length, Matches } from 'class-validator';
 import { IsCommonPassword } from '../../custom-decorators/validators/is-common-password.decorator';
+import {IsMatch} from "../../custom-decorators/validators/IsMatch.decorator";
 
 export class SignUpDto {
   @IsEmail()
@@ -12,4 +13,8 @@ export class SignUpDto {
   )
   @IsCommonPassword()
   password: string;
+
+  @IsString()
+  @IsMatch('password')
+  passwordConfirm: string;
 }
