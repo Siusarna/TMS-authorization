@@ -1,5 +1,7 @@
-import dbConfig from './database';
+import dbConfig from './database.config';
+import cryptoConfig from './crypto.config';
 
-export const config = {
-    db: dbConfig,
+export {
+    dbConfig,
+    cryptoConfig
 }
