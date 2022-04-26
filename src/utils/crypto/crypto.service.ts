@@ -8,7 +8,7 @@ const promisifiedRandomFill = promisify(crypto.randomFill);
 
 @Injectable()
 export class CryptoService {
-  async encryptPassword(data, key) {
+  async encryptPassword(data, key): Promise<{ encrypted: string; iv: string }> {
     const iv = (await promisifiedRandomFill(
       new Uint8Array(16),
     )) as crypto.BinaryLike;
@@ -19,7 +19,7 @@ export class CryptoService {
     return { encrypted, iv: iv.toString() };
   }
 
-  decryptPassword(data, key, iv) {
+  decryptPassword(data, key, iv): string {
     const aes = crypto.createDecipheriv(
       cryptoConfig.cipherPasswordName,
       key,
@@ -31,7 +31,7 @@ export class CryptoService {
     return decrypted;
   }
 
-  hashing(data) {
+  hashing(data): Promise<string> {
     return argon2.hash(data, {
       type: argon2.argon2id,
       memoryCost: 1024 * 37,
