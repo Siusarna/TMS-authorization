@@ -3,18 +3,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { SignUpDto } from './dtos/sign-up.dto';
-import { CryptoHelper } from '../utils/crypto-helper';
-import { cryptoConfig } from '../config';
+import { CryptoService } from '../utils/crypto/crypto.service';
+import { cryptoConfig, jwtConfig } from '../config';
+import { Tokens } from './interfaces/tokens.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private cryptoHelper: CryptoHelper,
+    private cryptoHelper: CryptoService,
+    private jwtService: JwtService,
   ) {}
 
-  async signUp({ email, password }: SignUpDto): Promise<void> {
+  private generateTokens(id: number): Tokens {
+    return {
+      accessToken: this.jwtService.sign(
+        { id },
+        { expiresIn: jwtConfig.accessExpiresIn },
+      ),
+      refreshToken: this.jwtService.sign(
+        { id },
+        { expiresIn: jwtConfig.refreshExpiresIn },
+      ),
+    };
+  }
+
+  async signUp({ email, password }: SignUpDto): Promise<Tokens> {
     const potentialUser = await this.usersRepository.findOne({ email });
     if (potentialUser) {
       throw new UnprocessableEntityException(
@@ -27,7 +43,13 @@ export class AuthService {
         hashedPassword,
         cryptoConfig.cipherPasswordKey,
       );
-    const user = new User({ email, password: encryptedPassword, iv, passwordVersion: cryptoConfig.passwordVersion });
+    const user = new User({
+      email,
+      password: encryptedPassword,
+      iv,
+      passwordVersion: cryptoConfig.passwordVersion,
+    });
     const savedUser = await this.usersRepository.save(user);
+    return this.generateTokens(savedUser.id);
   }
 }

@@ -2,22 +2,31 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class User {
-  constructor(data: { email: string, password: string, passwordVersion: string, iv: string }) {
-    this.email = data.email;
-    this.password = data.password;
-    this.passwordVersion = data.passwordVersion;
-    this.iv = data.iv;
+  constructor(data?: {
+    email: string;
+    password: string;
+    passwordVersion: string;
+    iv: string;
+  }) {
+    if (data) {
+      this.email = data.email;
+      this.password = data.password;
+      this.passwordVersion = data.passwordVersion;
+      this.iv = data.iv;
+    }
   }
 
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
+  @Index({ unique: true })
   email: string;
 
   @Column()

@@ -11,7 +11,7 @@ export function IsCommonPassword(validationOptions?: ValidationOptions) {
       validator: {
         validate() {
           const value = object[propertyName];
-          return isCommonPassword(value);
+          return !isCommonPassword(value);
         },
         defaultMessage(): string {
           return 'This password is common';

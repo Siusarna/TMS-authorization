@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { promisify } from 'util';
 import * as crypto from 'crypto';
-import { cryptoConfig } from '../config';
-import { BinaryLike } from 'crypto';
+import { cryptoConfig } from '../../config';
 import * as argon2 from 'argon2';
 
 const promisifiedRandomFill = promisify(crypto.randomFill);
 
 @Injectable()
-export class CryptoHelper {
+export class CryptoService {
   async encryptPassword(data, key) {
-    const iv = (await promisifiedRandomFill(new Uint8Array(16))) as BinaryLike;
+    const iv = (await promisifiedRandomFill(
+      new Uint8Array(16),
+    )) as crypto.BinaryLike;
     const aes = crypto.createCipheriv(cryptoConfig.cipherPasswordName, key, iv);
     let encrypted = aes.update(data, 'utf8', 'hex');
     encrypted += aes.final('hex');

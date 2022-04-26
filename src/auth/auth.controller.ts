@@ -1,16 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Version } from '@nestjs/common';
 import { Tokens } from './interfaces/tokens.interface';
 import { SignUpDto } from './dtos/sign-up.dto';
-import { AuthService } from "./auth.service";
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @Post()
-  signUp(@Body() authInfo: SignUpDto): Tokens {
-    return {
-      accessToken: 'b',
-      refreshToken: 'd',
-    };
+
+  @Version('1')
+  @Post('sign-up')
+  signUp(@Body() authInfo: SignUpDto): Promise<Tokens> {
+    return this.authService.signUp(authInfo);
   }
 }

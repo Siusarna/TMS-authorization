@@ -1,7 +1,7 @@
-import fs from 'fs';
+import * as fs from 'fs';
 
 const topPasswords = fs
-  .readFileSync(`${__dirname}/top10000password.txt`)
+  .readFileSync(`${__dirname}/top-10000-passwords.txt`)
   .toString()
   .split('\r\n');
 

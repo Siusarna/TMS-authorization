@@ -17,6 +17,7 @@
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/config/database.config.ts",
     "migration-generate": "npm run typeorm:cli -- migration:generate -n",
     "migration-run": "npm run typeorm:cli -- migration:run",
+    "migration-revert": "npm run typeorm:cli -- migration:revert",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -26,6 +27,7 @@
   "dependencies": {
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
     "argon2": "^0.28.5",
