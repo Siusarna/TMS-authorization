@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  postgres:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - tms_auth_volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+volumes:
+  tms_auth_volume:

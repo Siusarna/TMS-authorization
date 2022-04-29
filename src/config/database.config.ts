@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const env = process.env.NODE_ENV || 'dev';
 const dotenv_path = path.resolve(process.cwd(), `.${env}.env`);
@@ -19,6 +20,7 @@ const DatabaseConfig: TypeOrmModuleOptions = {
   synchronize: false,
   migrationsRun: false,
   cli: { migrationsDir: 'src/migrations' },
+  namingStrategy: new SnakeNamingStrategy(),
 };
 
 export default DatabaseConfig;
