@@ -109,4 +109,12 @@ export class AuthService {
     const savedUser = await this.usersRepository.save(user);
     return this.generateTokens(savedUser.id);
   }
+
+  async getUser(userId: number): Promise<User> {
+    const user = await this.usersRepository.findOne(userId);
+    if (!user) {
+      throw new NotFoundException('User with this id not found');
+    }
+    return user;
+  }
 }

@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import isCommonPassword from '../../utils/is-common-password';
+import isCommonPassword from '../../../utils/is-common-password';
 
 export function IsCommonPassword(validationOptions?: ValidationOptions) {
   return function (object: unknown, propertyName: string) {

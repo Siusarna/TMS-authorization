@@ -1,6 +1,6 @@
 import { IsEmail, IsString, Length, Matches } from 'class-validator';
-import { IsCommonPassword } from '../../custom-decorators/validators/is-common-password.decorator';
-import { IsMatch } from '../../custom-decorators/validators/IsMatch.decorator';
+import { IsCommonPassword } from '../../common/decorators/validators/is-common-password.decorator';
+import { IsMatch } from '../../common/decorators/validators/IsMatch.decorator';
 
 export class SignUpDto {
   @IsEmail()
