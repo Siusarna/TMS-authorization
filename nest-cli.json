@@ -7,6 +7,15 @@
       {
         "include": "./utils/top-10000-passwords.txt"
       }
+    ],
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "classValidatorShim": true,
+          "introspectComments": true
+        }
+      }
     ]
   }
 }

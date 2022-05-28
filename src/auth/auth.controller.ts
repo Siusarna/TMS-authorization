@@ -19,7 +19,9 @@ import {
   TransformedUser,
   TransformUserInterceptor,
 } from '../common/interceptors/transform-user.interceptor';
+import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 
+@ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -36,6 +38,7 @@ export class AuthController {
     return this.authService.signIn(authInfo);
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Version('1')
   @Patch('reset-password')
   @UseGuards(AuthGuard)
@@ -47,6 +50,7 @@ export class AuthController {
     return;
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Version('1')
   @Get('user')
   @UseGuards(AuthGuard)
