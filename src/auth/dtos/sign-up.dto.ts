@@ -3,9 +3,15 @@ import { IsCommonPassword } from '../../common/decorators/validators/is-common-p
 import { IsMatch } from '../../common/decorators/validators/IsMatch.decorator';
 
 export class SignUpDto {
+  /**
+   * @example test@gmail.com
+   */
   @IsEmail()
   email: string;
 
+  /**
+   * @example J23498asd!
+   */
   @IsString()
   @Length(8, 64)
   @Matches(
@@ -14,6 +20,9 @@ export class SignUpDto {
   @IsCommonPassword()
   password: string;
 
+  /**
+   * @example J23498asd!
+   */
   @IsString()
   @IsMatch('password')
   passwordConfirm: string;

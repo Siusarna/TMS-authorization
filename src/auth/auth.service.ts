@@ -15,7 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dtos/sign-in.dto';
 import * as argon2 from 'argon2';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
-import { Token } from './interfaces/token.interface';
+import { TokenDto } from './dtos/token.dto';
 
 @Injectable()
 export class AuthService {
@@ -24,9 +24,10 @@ export class AuthService {
     private usersRepository: Repository<User>,
     private cryptoService: CryptoService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
-  private generateTokens(userId: number): Token {
+  private generateTokens(userId: number): TokenDto {
     return {
       accessToken: this.jwtService.sign(
         { id: userId },
@@ -78,16 +79,16 @@ export class AuthService {
     );
   }
 
-  async signIn({ email, password }: SignInDto): Promise<Token> {
+  async signIn({ email, password }: SignInDto): Promise<TokenDto> {
     const user = await this.usersRepository.findOne({ email });
     if (!user) {
-      throw new NotFoundException("User with this email doesn't exists");
+      throw new NotFoundException('User with this email doesn\'t exists');
     }
     await this.isUserPassword(user.iv, user.password, password);
     return this.generateTokens(user.id);
   }
 
-  async signUp({ email, password }: SignUpDto): Promise<Token> {
+  async signUp({ email, password }: SignUpDto): Promise<TokenDto> {
     const potentialUser = await this.usersRepository.findOne({ email });
     if (potentialUser) {
       throw new UnprocessableEntityException(

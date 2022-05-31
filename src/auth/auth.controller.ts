@@ -14,9 +14,7 @@ import { AuthService } from './auth.service';
 import { SignInDto } from './dtos/sign-in.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { AuthGuard } from './auth.guards';
-import { Token } from './interfaces/token.interface';
 import {
-  TransformedUser,
   TransformUserInterceptor,
 } from '../common/interceptors/transform-user.interceptor';
 import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
@@ -28,13 +26,13 @@ export class AuthController {
 
   @Version('1')
   @Post('sign-up')
-  signUp(@Body() authInfo: SignUpDto): Promise<Token> {
+  signUp(@Body() authInfo: SignUpDto) {
     return this.authService.signUp(authInfo);
   }
 
   @Version('1')
   @Post('sign-in')
-  signIn(@Body() authInfo: SignInDto): Promise<Token> {
+  signIn(@Body() authInfo: SignInDto) {
     return this.authService.signIn(authInfo);
   }
 
@@ -45,7 +43,7 @@ export class AuthController {
   async resetPassword(
     @Request() req,
     @Body() passwords: ResetPasswordDto,
-  ): Promise<void> {
+  ) {
     await this.authService.resetPassword(req.user, passwords);
     return;
   }
@@ -55,7 +53,7 @@ export class AuthController {
   @Get('user')
   @UseGuards(AuthGuard)
   @UseInterceptors(TransformUserInterceptor)
-  getUser(@Request() req): Promise<TransformedUser> {
+  getUser(@Request() req) {
     return this.authService.getUser(req.user);
   }
 }
