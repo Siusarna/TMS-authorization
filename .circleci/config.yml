@@ -46,7 +46,7 @@ jobs:
               -timeout 20s
   publish-latest:
     environment:
-      IMAGE_NAME: tms_auth
+      IMAGE_NAME: auth
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
