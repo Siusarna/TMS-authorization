@@ -1,25 +1,24 @@
 version: "3.4"
 services:
-  tms_auth:
+  tms_auth_db:
     restart: always
     image: postgres:latest
     volumes:
       - tms_auth_volume:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-  tms_main:
-    restart: always
-    image: postgres:latest
-    volumes:
-      - tms_main_volume:/var/lib/postgresql/data
+      - POSTGRES_DB=tms_auth
+  tms_auth:
+    build: .
+    command: npm run start:prod
+    depends_on:
+      - tms_auth_db
     ports:
-      - 5431:5432
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
 volumes:
   tms_auth_volume:
-  tms_main_volume:

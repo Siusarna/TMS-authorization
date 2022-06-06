@@ -4,9 +4,8 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "assets": [
-      {
-        "include": "./utils/top-10000-passwords.txt"
-      }
+      "**/*.env",
+      "**/*.txt"
     ],
     "plugins": [
       {
