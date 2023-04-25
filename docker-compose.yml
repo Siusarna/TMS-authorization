@@ -1,12 +1,13 @@
-version: "3.4"
+version: '3.9'
+
 services:
   tms_auth_db:
     restart: always
-    image: postgres:latest
+    image: postgres:14
     volumes:
       - tms_auth_volume:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5430:5432"
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
